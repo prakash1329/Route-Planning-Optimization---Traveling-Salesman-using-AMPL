@@ -1,0 +1,129 @@
+ampl: model blending_odd.mod;
+ampl: data blending_odd.dat;
+ampl: option solver cplex;
+ampl: # Display the instantiated LP
+ampl: expand;
+maximize objective:
+	20*x[1,1] + 25*x[1,2] + 20*x[2,1] + 25*x[2,2] + 20*x[3,1] + 25*x[3,2];
+
+subject to sugar:
+	x[1,1] + x[1,2] <= 100;
+
+subject to nut:
+	x[2,1] + x[2,2] <= 20;
+
+subject to chocolate:
+	x[3,1] + x[3,2] <= 30;
+
+subject to slugger:
+	0.2*x[1,2] - 0.8*x[2,2] + 0.2*x[3,2] <= 0;
+
+subject to easyoutnut:
+	0.1*x[1,1] - 0.9*x[2,1] + 0.1*x[3,1] <= 0;
+
+subject to easyoutchocolate:
+	0.1*x[1,1] + 0.1*x[2,1] - 0.9*x[3,1] <= 0;
+
+subject to nonneg[1,1]:
+	x[1,1] >= 0;
+
+subject to nonneg[1,2]:
+	x[1,2] >= 0;
+
+subject to nonneg[2,1]:
+	x[2,1] >= 0;
+
+subject to nonneg[2,2]:
+	x[2,2] >= 0;
+
+subject to nonneg[3,1]:
+	x[3,1] >= 0;
+
+subject to nonneg[3,2]:
+	x[3,2] >= 0;
+ampl: # Display all objective function coefficientsampl: for {i in I, j in J} display cost[j];
+cost[j] = 20
+
+cost[j] = 25
+
+cost[j] = 20
+
+cost[j] = 25
+
+cost[j] = 20
+
+cost[j] = 25
+
+ampl: # Display the constraint coefficients of the first decision variable overall (i.e. x[1,1])
+ampl: display ip[1,1];
+ip[1,1] = 1
+
+ampl: display b[1];
+b[1] = 0.1
+
+ampl: display c[1];
+c[1] = 0.1
+
+ampl: # Display the coefficients of the first constraint overall
+ampl: for {j in J} display ip[1,j];
+ip[1,j] = 1
+
+ip[1,j] = 1
+
+ampl: # Solve the problem using CPLEX
+ampl: solve;
+CPLEX 12.10.0.0: optimal solution; objective 3250
+5 dual simplex iterations (3 in phase I)
+ampl: # Display the solution values
+ampl: for {i in I, j in J} display x[i,j];
+x[i,j] = 80
+
+x[i,j] = 20
+
+x[i,j] = 10
+
+x[i,j] = 10
+
+x[i,j] = 10
+
+x[i,j] = 20
+
+ampl: # Display all of the shadow prices at the optimal solution
+ampl: for {i in I, j in J} display x[i,j].rc;
+x[i,j].rc = 8.88178e-17
+
+x[i,j].rc = 0
+
+x[i,j].rc = 8.88178e-17
+
+x[i,j].rc = 0
+
+x[i,j].rc = -7.99361e-16
+
+x[i,j].rc = 0
+
+ampl: # Display the values of the slack variables at the optimal solution
+ampl: for {i in I, j in J} display x[i,j].slack;
+x[i,j].slack = 80
+
+x[i,j].slack = 20
+
+x[i,j].slack = 10
+x[i,j].slack = 10
+
+x[i,j].slack = 10
+
+x[i,j].slack = 20
+
+ampl: display sugar.slack, nut.slack, chocolate.slack;
+sugar.slack = 0
+nut.slack = 0
+chocolate.slack = 0
+
+ampl: display slugger.slack, easyoutnut.slack, easyoutchocolate.slack;
+slugger.slack = 0
+easyoutnut.slack = 0
+easyoutchocolate.slack = 0
+
+ampl: #Since all the constraints have zero slack, we can say all constraints are binding.
+ampl: quit;

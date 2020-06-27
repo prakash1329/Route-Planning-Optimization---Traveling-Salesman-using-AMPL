@@ -1,0 +1,121 @@
+ampl: model net1.mod;
+ampl: data net1.dat;
+ampl: option solver cplex;
+ampl: # Display the instantiated LP
+ampl: expand;
+minimize Total_Cost:
+	2.5*Ship['PITT','NE'] + 3.5*Ship['PITT','SE'] + 1.5*Ship['NE','BOS'] + 
+	0.7*Ship['NE','EWR'] + 1.4*Ship['NE','BWI'] + 1.3*Ship['SE','EWR'] + 
+	0.8*Ship['SE','BWI'] + 0.2*Ship['SE','ATL'] + 2.1*Ship['SE','MCO'];
+
+subject to Balance['PITT']:
+	-Ship['PITT','NE'] - Ship['PITT','SE'] = -450;
+
+subject to Balance['NE']:
+	Ship['PITT','NE'] - Ship['NE','BOS'] - Ship['NE','EWR'] - 
+	Ship['NE','BWI'] = 0;
+
+subject to Balance['SE']:
+	Ship['PITT','SE'] - Ship['SE','EWR'] - Ship['SE','BWI'] - 
+	Ship['SE','ATL'] - Ship['SE','MCO'] = 0;
+
+subject to Balance['BOS']:
+	Ship['NE','BOS'] = 90;
+
+subject to Balance['EWR']:
+	Ship['NE','EWR'] + Ship['SE','EWR'] = 120;
+
+subject to Balance['BWI']:
+	Ship['NE','BWI'] + Ship['SE','BWI'] = 120;
+
+subject to Balance['ATL']:
+	Ship['SE','ATL'] = 70;
+
+subject to Balance['MCO']:
+	Ship['SE','MCO'] = 50;
+
+ampl: # Display all objective function coefficients
+ampl: for {(i,j) in LINKS} display cost[i,j];
+cost[i,j] = 2.5
+
+cost[i,j] = 3.5
+
+cost[i,j] = 1.5
+
+cost[i,j] = 0.7
+
+cost[i,j] = 1.4
+
+cost[i,j] = 1.3
+
+cost[i,j] = 0.8
+
+cost[i,j] = 0.2
+
+cost[i,j] = 2.1
+
+ampl: # Solve the problem using CPLEX
+ampl: option solve cplex;
+ampl: solve;
+CPLEX 12.10.0.0: optimal solution; objective 1807
+0 dual simplex iterations (0 in phase I)
+ampl: 
+ampl: # Display the solution values
+ampl: for {(i,j) in LINKS} display Ship[i,j];
+Ship[i,j] = 250
+
+Ship[i,j] = 200
+
+Ship[i,j] = 90
+
+Ship[i,j] = 100
+
+Ship[i,j] = 60
+
+Ship[i,j] = 20
+
+Ship[i,j] = 60
+
+Ship[i,j] = 70
+
+Ship[i,j] = 50
+
+ampl: # Display all of the shadow prices at the optimal solution
+ampl: for {(i,j) in LINKS} display Ship[i,j].rc;
+Ship[i,j].rc = -0.4
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = -1.2
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = 0
+
+Ship[i,j].rc = 0
+
+ampl: # Display the values of the slack variables at the optimal solution
+ampl: for {k in CITIES} display Balance[k].slack;
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+
+Balance[k].slack = 0
+ampl: # Identify all or 5 non-binding constraints, whichever is smaller, at the at the optimal solution.ampl: Since all of the above constraints have zero slack, all constraints are binding. There are no non-binding constraints. 
+ampl: quit;

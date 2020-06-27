@@ -1,0 +1,278 @@
+ampl: model prod.mod;
+ampl: data prod.dat;
+ampl data: option solver cplex;
+ampl: # Display the instantiated LP
+ampl: expand;
+maximize Productivity:
+	8*x[1] + 10*x[2] + 9*x[3] + 8*x[4] + 9*x[5] + 6*x[6] + 9*x[7] + 10*x[8]
+	 + x[9] + 2*x[10] + 3*x[11] + 4*x[12] + 4*x[13] + 2*x[14] + x[15] + 
+	5*x[16] + 10*x[17] + x[18] + 3*x[19] + 3*x[20] + 2*x[21];
+
+subject to Time:
+	x[1] + x[2] + x[3] + x[4] + x[5] + x[6] + x[7] + x[8] + x[9] + x[10] + 
+	x[11] + x[12] + x[13] + x[14] + x[15] + x[16] + x[17] + x[18] + x[19]
+	 + x[20] + x[21] <= 168;
+
+subject to Work:
+	x[1] + x[4] + x[8] <= 55;
+
+subject to Study:
+	x[2] + x[3] + x[5] + x[6] + x[7] <= 38;
+
+subject to Sleep:
+	x[9] >= 40;
+
+subject to Household:
+	x[10] + x[11] + x[18] <= 5.5;
+
+subject to Health:
+	x[13] + x[20] <= 10;
+
+subject to Personal:
+	x[15] + x[17] <= 10;
+
+subject to Chillingwithfriends:
+	x[12] + x[14] <= 9;
+
+subject to Eating:
+	x[21] <= 8;
+
+subject to Phoneusage:
+	x[16] + x[19] <= 15;
+
+subject to Nonneg[1]:
+	x[1] >= 0;
+
+subject to Nonneg[2]:
+	x[2] >= 0;
+
+subject to Nonneg[3]:
+	x[3] >= 0;
+
+subject to Nonneg[4]:
+	x[4] >= 0;
+
+subject to Nonneg[5]:
+	x[5] >= 0;
+
+subject to Nonneg[6]:
+	x[6] >= 0;
+
+subject to Nonneg[7]:
+	x[7] >= 0;
+
+subject to Nonneg[8]:
+	x[8] >= 0;
+
+subject to Nonneg[9]:
+	x[9] >= 0;
+
+subject to Nonneg[10]:
+	x[10] >= 0;
+
+subject to Nonneg[11]:
+	x[11] >= 0;
+
+subject to Nonneg[12]:
+	x[12] >= 0;
+
+subject to Nonneg[13]:
+	x[13] >= 0;
+
+subject to Nonneg[14]:
+	x[14] >= 0;
+
+subject to Nonneg[15]:
+	x[15] >= 0;
+
+subject to Nonneg[16]:
+	x[16] >= 0;
+
+subject to Nonneg[17]:
+	x[17] >= 0;
+
+subject to Nonneg[18]:
+	x[18] >= 0;
+
+subject to Nonneg[19]:
+	x[19] >= 0;
+
+subject to Nonneg[20]:
+	x[20] >= 0;
+
+subject to Nonneg[21]:
+	x[21] >= 0;
+
+ampl: # Display all objective function coefficients 
+ampl: for {i in I} display productivitycoeff[i];
+productivitycoeff[i] = 8
+
+productivitycoeff[i] = 10
+
+productivitycoeff[i] = 9
+
+productivitycoeff[i] = 8
+
+productivitycoeff[i] = 9
+
+productivitycoeff[i] = 6
+
+productivitycoeff[i] = 9
+
+productivitycoeff[i] = 10
+
+productivitycoeff[i] = 1
+
+productivitycoeff[i] = 2
+
+productivitycoeff[i] = 3
+
+productivitycoeff[i] = 4
+
+productivitycoeff[i] = 4
+
+productivitycoeff[i] = 2
+
+productivitycoeff[i] = 1
+
+productivitycoeff[i] = 5
+
+productivitycoeff[i] = 10
+
+productivitycoeff[i] = 1
+
+productivitycoeff[i] = 3
+
+productivitycoeff[i] = 3
+
+productivitycoeff[i] = 2
+
+ampl: # Display the constraint coefficients of the first decision variable overall (i.e. X1)
+ampl: display productivitycoeff[1];
+productivitycoeff[1] = 8
+
+ampl: # Display the coefficients of the first constraint overall
+ampl: for {i in I} display time[i];
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+time[i] = 1
+
+ampl: for {i in I} display work[i];
+work[i] = 1
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 1
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 1
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+work[i] = 0
+
+ampl: # Solve the problem using CPLEX
+ampl: option solver cplex;
+ampl: solve;
+CPLEX 12.10.0.0: optimal solution; objective 1185
+0 simplex iterations (0 in phase I)
+
+ampl: # Display the solution values
+ampl: display x;
+x [*] :=
+ 1  0    4  0    7  0   10  0   13 10   16 15   19  0
+ 2 38    5  0    8 55   11  0   14  0   17 10   20  0
+ 3  0    6  0    9 40   12  0   15  0   18  0   21  0
+;
+
+ampl: # Display all of the shadow prices at the optimal solution
+ampl: display x.rc;
+x.rc [*] :=
+ 1 -2    4 -2    7 -1   10 -2   13  0   16  0   19 -2
+ 2  0    5 -1    8  0   11 -1   14 -2   17  0   20 -1
+ 3 -1    6 -4    9  0   12  0   15 -9   18 -3   21 -2
+;
+
+ampl: # Display the values of the slack variables at the optimal solution
+ampl: display Time.slack, Work.slack, Study.slack, Sleep.slack, Household.slack, Personal.slack, Chillingwithfriends.slack, Eating.slack, Phoneusage.slack;
+Time.slack = 0
+Work.slack = 0
+Study.slack = 0
+Sleep.slack = 0
+Household.slack = 5.5
+Personal.slack = 0
+Chillingwithfriends.slack = 9
+Eating.slack = 8
+Phoneusage.slack = 0
+
+ampl: # Identify all or 5 non-binding constraints, whichever is smaller, at the at the optimal solution.
+ampl: # All the constraints which have zero slack are binding and non-zero terms are non-binding.
+ampl: # From the above model, the constraints Household, Chillingwithfriends and Eating are non-binding.ampl: # The constraints Time, Work, Study, Sleep, Personal, Phoneusage are binding.
+ampl: quit;
