@@ -1,0 +1,37 @@
+ampl: model TSP_MTZ.mod;
+ampl: data TSP_MTZ.dat;
+ampl: option solver cplex;
+ampl: solve;
+CPLEX 12.10.0.0: optimal integer solution; objective 1124
+598 MIP simplex iterations
+56 branch-and-bound nodes
+ampl: display x;
+x [*,*]
+:    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15    :=
+1    0   0   0   0   0   1   0   0   0   0   0   0   0   0   0
+2    0   0   0   0   1   0   0   0   0   0   0   0   0   0   0
+3    0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+4    0   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+5    0   0   0   0   0   0   0   1   0   0   0   0   0   0   0
+6    0   0   0   0   0   0   1   0   0   0   0   0   0   0   0
+7    0   0   0   0   0   0   0   0   0   0   0   0   0   1   0
+8    0   0   0   0   0   0   0   0   0   0   0   0   0   0   1
+9    0   0   0   0   0   0   0   0   0   0   1   0   0   0   0
+10   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+11   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0
+12   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+13   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0
+14   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0
+15   0   0   0   0   0   0   0   0   0   1   0   0   0   0   0
+;
+
+ampl: # The driver should follow this path
+ampl: # 1-6-7-14-3-13-12-4-9-11-2-5-8-15-10-1
+ampl: # A-H-I-S-C-R-P-F-M-O-B-G-L-T-N-A
+ampl: # Anaheim - Huntington beach - Irvine - San Diego - Chula Vista -Riverside- Palmdale - Fresno - Modesto - Oakland - Berkeley - Glendale - Los Angles - Torrance
+ampl: #Torrance - Norwalk - Anaheim
+ampl: #
+ampl: #
+ampl: #
+ampl: #END#
+ampl: 
